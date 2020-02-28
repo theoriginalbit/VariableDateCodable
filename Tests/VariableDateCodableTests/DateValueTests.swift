@@ -1,11 +1,4 @@
 @testable import VariableDateCodable
-@testable import VariableDateCodableISO8601
-@testable import VariableDateCodableISO8601FractionalSeconds
-@testable import VariableDateCodableReferenceTimestamp
-@testable import VariableDateCodableRFC2822
-@testable import VariableDateCodableRFC3339
-@testable import VariableDateCodableTimestamp
-@testable import VariableDateCodableYearMonthDay
 import XCTest
 
 final class VariableDateCodableTests: XCTestCase {

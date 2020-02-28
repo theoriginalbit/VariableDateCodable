@@ -18,9 +18,9 @@ let result = try JSONDecoder().decode(Response.self, from: json)
 
 The `@DateValue` wrapper is generic across a custom `DateValueCodableStrategy`. This allows anyone to implement their own date decoding strategy and get the property wrapper behavior for free.
 
-A few common Date strategies are provided through separate targets so you can include as many or few as desired.
+A few common `Date` strategies are provided.
 
-## Opt-In Strategies
+## Strategies
 
 ### ISO8601FractionalSecondsStrategy
 `@DateValue<ISO8601Strategy>` relies on an `ISO8601DateFormatter`, customised with the `.withInternetDateTime` and `.withFractionalSeconds` format options, in order to decode `String` values into `Date`s. Encoding the date will encode the value into the original string value.

@@ -1,5 +1,4 @@
 import Foundation
-import VariableDateCodable
 
 /// Decodes `TimeInterval` values as a `Date`.
 ///

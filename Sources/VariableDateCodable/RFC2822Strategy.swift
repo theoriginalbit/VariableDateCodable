@@ -1,5 +1,4 @@
 import Foundation
-import VariableDateCodable
 
 /// Decodes `String` values as an RFC 2822 `Date`.
 ///

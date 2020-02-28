@@ -1,5 +1,4 @@
 import Foundation
-import VariableDateCodable
 
 /// Decodes `String` values of format `y-MM-dd` as a `Date`.
 ///
