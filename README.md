@@ -2,7 +2,7 @@
 
 Supporting mixed date formats within `Codable` entities through property wrappers.
 
-_This code is pretty much a clone and customisation of [marksands/BetterCodable](https://github.com/marksands/BetterCodable) but handling `Date`s specifically._
+_This code is pretty much a clone of [marksands/BetterCodable](https://github.com/marksands/BetterCodable) but only handling `Date`s and adds some strategies I more commonly use._
 
 ```swift
 struct Response: Codable {
