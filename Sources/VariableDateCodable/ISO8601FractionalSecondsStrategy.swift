@@ -13,7 +13,7 @@ public struct ISO8601FractionalSecondsStrategy: DateValueCodableStrategy {
         return $0
     }(ISO8601DateFormatter())
 
-    public static func decode(_ value: String) throws -> Date {
+    public static func decode(_ v: String) throws -> Date {
         guard let date = dateFormatter.date(from: value) else {
             throw DecodingError.dataCorrupted(.init(codingPath: [], debugDescription: "Invalid ISO8601FractionalSecondsStrategy Date Format!"))
         }
