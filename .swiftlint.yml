@@ -1,0 +1,24 @@
+disabled_rules:
+  - line_length
+  - function_parameter_count
+  - large_tuple
+opt_in_rules:
+  - attributes
+  - file_header
+  - empty_string
+  - closure_spacing
+  - convenience_type
+  - discouraged_object_literal
+  - fatal_error_message
+  - force_unwrapping
+  - implicitly_unwrapped_optional
+  - yoda_condition
+included:
+  - Sources
+
+attributes:
+    always_on_same_line: ["@IBAction", "@NSManaged", "@objc"]
+file_header:
+    forbidden_pattern: ".?"
+trailing_comma:
+  mandatory_comma: true

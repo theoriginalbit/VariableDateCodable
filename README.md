@@ -1,4 +1,5 @@
 # VariableDateCodable
+![Build](https://github.com/theoriginalbit/VariableDateCodable/workflows/build/badge.svg) [![Swift Package Manager compatible](https://img.shields.io/badge/SPM-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
 
 Supporting mixed date formats within `Codable` entities through property wrappers.
 
