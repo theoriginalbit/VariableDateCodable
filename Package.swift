@@ -10,6 +10,13 @@ let package = Package(
     ],
     products: [
         .library(name: "VariableDateCodable", targets: ["VariableDateCodable"]),
+        .library(name: "VariableDateCodable.ISO8601FractionalSeconds", targets: ["VariableDateCodableISO8601FractionalSeconds"]),
+        .library(name: "VariableDateCodable.ISO8601", targets: ["VariableDateCodableISO8601"]),
+        .library(name: "VariableDateCodable.ReferenceTimestamp", targets: ["VariableDateCodableReferenceTimestamp"]),
+        .library(name: "VariableDateCodable.RFC2822", targets: ["VariableDateCodableRFC2822"]),
+        .library(name: "VariableDateCodable.RFC3339", targets: ["VariableDateCodableRFC3339"]),
+        .library(name: "VariableDateCodable.Timestamp", targets: ["VariableDateCodableTimestamp"]),
+        .library(name: "VariableDateCodable.YearMonthDay", targets: ["VariableDateCodableYearMonthDay"]),
     ],
     dependencies: [],
     targets: [
