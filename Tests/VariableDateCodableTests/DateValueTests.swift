@@ -2,6 +2,8 @@
 import XCTest
 
 final class VariableDateCodableTests: XCTestCase {
+    // MARK: @DateValue Strategies
+
     func testDecodingAndEncodingISO8601FractionalSecondsDateString() throws {
         struct Response: Codable {
             @DateValue<ISO8601FractionalSecondsStrategy> var iso8601: Date
@@ -72,6 +74,39 @@ final class VariableDateCodableTests: XCTestCase {
         XCTAssertEqual(response.ymd, Date(timeIntervalSince1970: 850953600))
     }
 
+    // MARK: @OptionalDateValue strategies
+
+    func testDecodingAndEncodingNonOptionalWithNull() throws {
+        struct Response: Codable {
+            @DateValue<ISO8601FractionalSecondsStrategy> var iso8601: Date
+        }
+        let jsonData = #"{"iso8601": null}"# .data(using: .utf8)!
+
+        XCTAssertThrowsError(try JSONDecoder().decode(Response.self, from: jsonData))
+    }
+
+    func testDecodingAndEncodingOptionalWithNull() throws {
+        struct Response: Codable {
+            @OptionalDateValue<ISO8601FractionalSecondsStrategy> var iso8601: Date?
+        }
+        let jsonData = #"{"iso8601": null}"# .data(using: .utf8)!
+
+        let response = try JSONDecoder().decode(Response.self, from: jsonData)
+        XCTAssertEqual(response.iso8601, .none)
+    }
+
+    func testDecodingAndEncodingOptionalWithValue() throws {
+        struct Response: Codable {
+            @OptionalDateValue<ISO8601FractionalSecondsStrategy> var iso8601: Date?
+        }
+        let jsonData = #"{"iso8601": "1996-12-19T16:39:57.538-08:00"}"# .data(using: .utf8)!
+
+        let response = try JSONDecoder().decode(Response.self, from: jsonData)
+        XCTAssertEqual(response.iso8601, Date(timeIntervalSince1970: 851042397.538))
+    }
+
+    // MARK: XCTestManifest Contract
+
     static var allTests = [
         ("testDecodingAndEncodingISO8601FractionalSecondsDateString", testDecodingAndEncodingISO8601FractionalSecondsDateString),
         ("testDecodingAndEncodingISO8601DateString", testDecodingAndEncodingISO8601DateString),
@@ -80,5 +115,8 @@ final class VariableDateCodableTests: XCTestCase {
         ("testDecodingAndEncodingRFC3339DateString", testDecodingAndEncodingRFC3339DateString),
         ("testDecodingAndEncodingTimestamp", testDecodingAndEncodingTimestamp),
         ("testDecodingAndEncodingYearMonthDateString", testDecodingAndEncodingYearMonthDateString),
+        ("testDecodingAndEncodingNonOptionalWithNull", testDecodingAndEncodingNonOptionalWithNull),
+        ("testDecodingAndEncodingOptionalWithNull", testDecodingAndEncodingOptionalWithNull),
+        ("testDecodingAndEncodingOptionalWithValue", testDecodingAndEncodingOptionalWithValue),
     ]
 }

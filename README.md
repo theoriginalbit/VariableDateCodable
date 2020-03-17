@@ -1,9 +1,17 @@
 # VariableDateCodable
 ![Build](https://github.com/theoriginalbit/VariableDateCodable/workflows/build/badge.svg) [![Swift Package Manager compatible](https://img.shields.io/badge/SPM-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
 
-Supporting mixed date formats within `Codable` entities through property wrappers.
+_This code is extracted and extended from [marksands/BetterCodable](https://github.com/marksands/BetterCodable)._
 
-_This code is pretty much a clone of [marksands/BetterCodable](https://github.com/marksands/BetterCodable) but only handling `Date`s and adds some strategies I more commonly use._
+Supporting mixed date formats within `Codable` entities through property wrappers. The `@DateValue` wrapper is generic across a custom `DateValueCodableStrategy`. This allows anyone to implement their own date decoding strategy and get the property wrapper behavior for free.
+
+It has some additional strategies and support for optionals.
+
+## Usage
+
+### `@DateValue`
+
+For any `Date` fields.
 
 ```swift
 struct Response: Codable {
@@ -17,14 +25,28 @@ let result = try JSONDecoder().decode(Response.self, from: json)
 // This produces two valid `Date` values, `updatedAt` representing October 19, 2019 and `birthday` January 22nd, 1984.
 ```
 
-The `@DateValue` wrapper is generic across a custom `DateValueCodableStrategy`. This allows anyone to implement their own date decoding strategy and get the property wrapper behavior for free.
+### `@OptionalDateValue`
 
-A few common `Date` strategies are provided.
+For any `Date?` fields.
+
+```swift
+struct Response: Codable {
+    @OptionalDateValue<YearMonthDayStrategy> var birthday: Date?
+    @DateValue<ISO8601Strategy> var updatedAt: Date
+}
+
+let json = #"{ "birthday": null, "updatedAt": "2019-10-19T16:14:32-08:00" }"#.data(using: .utf8)!
+let result = try JSONDecoder().decode(Response.self, from: json)
+
+// This produces a valid `Response` value, `updatedAt` representing October 19, 2019 and `birthday` as `Optional.none`.
+```
+
+_**NOTE:** There is an issue with JSON fields being omitted entirely, until I get that resolved it requires the property to appear in the JSON with `null`._
 
 ## Strategies
 
 ### ISO8601FractionalSecondsStrategy
-`@DateValue<ISO8601Strategy>` relies on an `ISO8601DateFormatter`, customised with the `.withInternetDateTime` and `.withFractionalSeconds` format options, in order to decode `String` values into `Date`s. Encoding the date will encode the value into the original string value.
+`@DateValue<ISO8601FractionalSecondsStrategy>` relies on an `ISO8601DateFormatter`, customised with the `.withInternetDateTime` and `.withFractionalSeconds` format options, in order to decode `String` values into `Date`s. Encoding the date will encode the value into the original string value.
 
 #### Usage
 ```swift
@@ -54,7 +76,7 @@ let response = try JSONDecoder().decode(Response.self, from: jsonData)
 ```
 
 ### ReferenceTimestampStrategy
-`@DateValue<TimestampStrategy>` decodes `Double`s of a unix epoch into `Date`s. Encoding the date will encode the value into the original `TimeInterval` value.
+`@DateValue<ReferenceTimestampStrategy>` decodes `Double`s of a unix epoch into `Date`s. Encoding the date will encode the value into the original `TimeInterval` value.
 
 #### Usage
 ```swift
