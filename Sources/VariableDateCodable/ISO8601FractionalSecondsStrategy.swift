@@ -8,8 +8,9 @@ import Foundation
 ///
 /// Original source: https://github.com/marksands/BetterCodable/blob/master/Sources/BetterCodable/ISO8601Strategy.swift
 public struct ISO8601FractionalSecondsStrategy: DateValueCodableStrategy {
-    private static let dateFormatter: ISO8601DateFormatter = {
-        $0.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+    static let dateFormatter: ISO8601DateFormatter = {
+        $0.formatOptions = [.withInternetDateTime, .withFractionalSeconds, .withTimeZone]
+        $0.timeZone = .current
         return $0
     }(ISO8601DateFormatter())
 

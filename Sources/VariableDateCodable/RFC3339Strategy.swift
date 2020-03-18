@@ -8,7 +8,7 @@ import Foundation
 ///
 /// Original source: https://github.com/marksands/BetterCodable/blob/master/Sources/BetterCodable/RFC3339Strategy.swift
 public struct RFC3339Strategy: DateValueCodableStrategy {
-    private static let dateFormatter: DateFormatter = {
+    static let dateFormatter: DateFormatter = {
         $0.locale = Locale(identifier: "en_US_POSIX")
         $0.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         $0.timeZone = TimeZone(secondsFromGMT: 0)

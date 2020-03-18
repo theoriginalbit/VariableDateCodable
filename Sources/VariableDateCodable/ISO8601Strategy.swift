@@ -8,7 +8,11 @@ import Foundation
 ///
 /// Original source: https://github.com/marksands/BetterCodable/blob/master/Sources/BetterCodable/ISO8601Strategy.swift
 public struct ISO8601Strategy: DateValueCodableStrategy {
-    private static let dateFormatter = ISO8601DateFormatter()
+    static let dateFormatter: ISO8601DateFormatter = {
+        $0.formatOptions = [.withInternetDateTime, .withTimeZone]
+        $0.timeZone = .current
+        return $0
+    }(ISO8601DateFormatter())
 
     public static func decode(_ value: String) throws -> Date {
         guard let date = dateFormatter.date(from: value) else {

@@ -8,10 +8,10 @@ import Foundation
 ///
 /// Original source: https://github.com/marksands/BetterCodable/blob/master/Sources/BetterCodable/RFC2822Strategy.swift
 public struct RFC2822Strategy: DateValueCodableStrategy {
-    private static let dateFormatter: DateFormatter = {
+    static let dateFormatter: DateFormatter = {
         $0.locale = Locale(identifier: "en_US_POSIX")
         $0.dateFormat = "EEE, d MMM y HH:mm:ss zzz"
-        $0.timeZone = TimeZone(secondsFromGMT: 0)
+        $0.timeZone = .current
         return $0
     }(DateFormatter())
 

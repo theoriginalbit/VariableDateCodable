@@ -8,7 +8,7 @@ import Foundation
 ///
 /// Original source: https://github.com/marksands/BetterCodable/blob/master/Sources/BetterCodable/YearMonthDayStrategy.swift
 public struct YearMonthDayStrategy: DateValueCodableStrategy {
-    private static let dateFormatter: DateFormatter = {
+    static let dateFormatter: DateFormatter = {
         $0.locale = Locale(identifier: "en_US_POSIX")
         $0.dateFormat = "y-MM-dd"
         $0.timeZone = TimeZone(secondsFromGMT: 0)
