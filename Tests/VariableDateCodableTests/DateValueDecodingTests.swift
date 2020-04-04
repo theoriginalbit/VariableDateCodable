@@ -30,6 +30,8 @@ final class DateValueDecodingTests: XCTestCase {
         }
         let jsonData = try XCTUnwrap(#"{"timestamp": 604548113.0}"# .data(using: .utf8))
 
+        try JSONDecoder().decode(TimeZone.self, from: jsonData)
+
         let response = try JSONDecoder().decode(Response.self, from: jsonData)
         XCTAssertEqual(response.timestamp, Date(timeIntervalSinceReferenceDate: 604548113))
     }
@@ -89,10 +91,26 @@ final class DateValueDecodingTests: XCTestCase {
         struct Response: Codable {
             @OptionalDateValue<ISO8601FractionalSecondsStrategy> var iso8601: Date?
         }
-        let jsonData = try XCTUnwrap(#"{"iso8601": null}"# .data(using: .utf8))
 
-        let response = try JSONDecoder().decode(Response.self, from: jsonData)
-        XCTAssertEqual(response.iso8601, .none)
+        do {
+            let jsonData = try XCTUnwrap(#"{}"# .data(using: .utf8))
+
+            let response = try JSONDecoder().decode(Response.self, from: jsonData)
+            XCTAssertEqual(response.iso8601, .none)
+        } catch let DecodingError.dataCorrupted(context) {
+            print(context)
+        } catch let DecodingError.keyNotFound(key, context) {
+            print("Key '\(key)' not found:", context.debugDescription)
+            print("codingPath:", context.codingPath)
+        } catch let DecodingError.valueNotFound(value, context) {
+            print("Value '\(value)' not found:", context.debugDescription)
+            print("codingPath:", context.codingPath)
+        } catch let DecodingError.typeMismatch(type, context) {
+            print("Type '\(type)' mismatch:", context.debugDescription)
+            print("codingPath:", context.codingPath)
+        } catch {
+            print("### error: ", error)
+        }
     }
 
     func testDecodingOptionalWithValue() throws {
