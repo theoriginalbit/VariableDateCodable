@@ -16,11 +16,10 @@ public struct RFC2822Strategy: DateValueCodableStrategy {
     }(DateFormatter())
 
     public static func decode(_ value: String) throws -> Date {
-        if let date = dateFormatter.date(from: value) {
-            return date
-        } else {
+        guard let date = dateFormatter.date(from: value) else {
             throw DecodingError.dataCorrupted(.init(codingPath: [], debugDescription: "Invalid Date Format!"))
         }
+        return date
     }
 
     public static func encode(_ date: Date) -> String {

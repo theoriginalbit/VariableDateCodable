@@ -3,23 +3,26 @@
 
 Supporting mixed date formats within `Codable` entities through property wrappers.
 
-_This code is pretty much a clone of [marksands/BetterCodable](https://github.com/marksands/BetterCodable) but only handling `Date`s and adds some strategies I more commonly use._
+_This code is pretty much a clone of [marksands/BetterCodable](https://github.com/marksands/BetterCodable) but only handling `Date`s and adds some strategies I more commonly use, as well as support for Optionals._
 
 ```swift
 struct Response: Codable {
     @DateValue<YearMonthDayStrategy> var birthday: Date
-    @DateValue<ISO8601Strategy> var updatedAt: Date
+    @DateValue<ISO8601Strategy> var createdAt: Date
+    @OptionalDateValue<ISO8601Strategy> var updatedAt: Date?
 }
 
-let json = #"{ "birthday": "1984-01-22", "updatedAt": "2019-10-19T16:14:32-08:00" }"#.data(using: .utf8)!
+let json = Data(#"{ "birthday": "1984-01-22", "createdAt": "2019-10-19T16:14:32-08:00" }"#.utf8)
 let result = try JSONDecoder().decode(Response.self, from: json)
 
-// This produces two valid `Date` values, `updatedAt` representing October 19, 2019 and `birthday` January 22nd, 1984.
+// This produces three valid `Date` values, `createdAt` representing October 19, 2019, `birthday` January 22nd, 1984, and `updatedAt` is `nil`.
 ```
 
 The `@DateValue` wrapper is generic across a custom `DateValueCodableStrategy`. This allows anyone to implement their own date decoding strategy and get the property wrapper behavior for free.
 
 A few common `Date` strategies are provided.
+
+`@OptionalDateValue` behaves the same as `@DateValue` but allows your model to make the date value optional.
 
 ## Strategies
 
@@ -31,7 +34,7 @@ A few common `Date` strategies are provided.
 struct Response: Codable {
     @DateValue<ISO8601FractionalSecondsStrategy> var iso8601: Date
 }
-let jsonData = #"{"iso8601": "1996-12-19T16:39:57.538-08:00"}"# .data(using: .utf8)!
+let jsonData = Data(#"{"iso8601": "1996-12-19T16:39:57.538-08:00"}"#.utf8)
 
 let response = try JSONDecoder().decode(Response.self, from: jsonData)
 
@@ -46,7 +49,7 @@ let response = try JSONDecoder().decode(Response.self, from: jsonData)
 struct Response: Codable {
     @DateValue<ISO8601Strategy> var iso8601: Date
 }
-let jsonData = #"{"iso8601": "1996-12-19T16:39:57-08:00"}"# .data(using: .utf8)!
+let jsonData = Data(#"{"iso8601": "1996-12-19T16:39:57-08:00"}"#.utf8)
 
 let response = try JSONDecoder().decode(Response.self, from: jsonData)
 
@@ -61,7 +64,7 @@ let response = try JSONDecoder().decode(Response.self, from: jsonData)
 struct Response: Codable {
     @DateValue<ReferenceTimestampStrategy> var timestamp: Date
 }
-let jsonData = #"{"timestamp": 604548113.0}"# .data(using: .utf8)!
+let jsonData = Data(#"{"timestamp": 604548113.0}"#.utf8)
 
 let response = try JSONDecoder().decode(Response.self, from: jsonData)
 
@@ -76,7 +79,7 @@ let response = try JSONDecoder().decode(Response.self, from: jsonData)
 struct Response: Codable {
     @DateValue<RFC2822Strategy> var rfc2822Date: Date
 }
-let jsonData = #"{"rfc2822Date": "Fri, 27 Dec 2019 22:43:52 -0000"}"# .data(using: .utf8)!
+let jsonData = Data(#"{"rfc2822Date": "Fri, 27 Dec 2019 22:43:52 -0000"}"#.utf8)
 
 let response = try JSONDecoder().decode(Response.self, from: jsonData)
 
@@ -91,7 +94,7 @@ let response = try JSONDecoder().decode(Response.self, from: jsonData)
 struct Response: Codable {
     @DateValue<RFC3339Strategy> var rfc3339Date: Date
 }
-let jsonData = #"{"rfc3339Date": "1996-12-19T16:39:57-08:00"}"# .data(using: .utf8)!
+let jsonData = Data(#"{"rfc3339Date": "1996-12-19T16:39:57-08:00"}"#.utf8)
 
 let response = try JSONDecoder().decode(Response.self, from: jsonData)
 
@@ -106,7 +109,7 @@ let response = try JSONDecoder().decode(Response.self, from: jsonData)
 struct Response: Codable {
     @DateValue<TimestampStrategy> var timestamp: Date
 }
-let jsonData = #"{"timestamp": 978307200.0}"# .data(using: .utf8)!
+let jsonData = Data(#"{"timestamp": 978307200.0}"#.utf8)
 
 let response = try JSONDecoder().decode(Response.self, from: jsonData)
 
@@ -121,7 +124,7 @@ let response = try JSONDecoder().decode(Response.self, from: jsonData)
 struct Response: Codable {
     @DateValue<YearMonthDayStrategy> var ymd: Date
 }
-let jsonData = #"{"ymd": "2001-01-01"}"# .data(using: .utf8)!
+let jsonData = Data(#"{"ymd": "2001-01-01"}"#.utf8)
 
 let response = try JSONDecoder().decode(Response.self, from: jsonData)
 
