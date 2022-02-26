@@ -4,7 +4,7 @@ import XCTest
 final class TimestampStrategyTests: XCTestCase {
     func testDecodingAndEncodingTimestamp_Valid() throws {
         struct Response: Codable {
-            @DateValue<TimestampStrategy> var timestamp: Date
+            @DateCodable<TimestampStrategy> var timestamp: Date
         }
         let jsonData = Data(#"{"timestamp": 851042397.0}"#.utf8)
 
@@ -14,7 +14,7 @@ final class TimestampStrategyTests: XCTestCase {
     
     func testDecodingAndEncodingTimestamp_Invalid() throws {
         struct Response: Codable {
-            @DateValue<TimestampStrategy> var timestamp: Date
+            @DateCodable<TimestampStrategy> var timestamp: Date
         }
         let jsonData = Data(#"{"timestamp": "851042397.0"}"#.utf8)
 

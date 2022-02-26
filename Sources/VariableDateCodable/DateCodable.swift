@@ -1,10 +1,12 @@
 import Foundation
 
-/// Decodes and encodes dates using a strategy type.
+/// Decodes and encodes optional dates using a strategy type.
 ///
-/// `DateValue` decodes dates using a `DateValueCodableStrategy` which provides custom decoding and encoding functionality.
+/// `DateCodable` decodes dates using a ``DateCodableStrategy`` which provides custom decoding and encoding functionality.
+///
+/// You can access the original (non-date) value through the ``projectedValue`` property directly or `$` prefix.
 @propertyWrapper
-public struct DateValue<Strategy: DateValueCodableStrategy>: Codable {
+public struct DateCodable<Strategy: DateCodableStrategy>: Codable {
     public var wrappedValue: Date {
         didSet {
             projectedValue = Strategy.encode(wrappedValue)

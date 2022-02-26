@@ -7,7 +7,7 @@ import Foundation
 /// For example, decoding json data with a `String` representation  of `"2001-01-01"` produces a valid `Date` representing January 1st, 2001.
 ///
 /// Original source: https://github.com/marksands/BetterCodable/blob/master/Sources/BetterCodable/YearMonthDayStrategy.swift
-public struct YearMonthDayStrategy: DateValueCodableStrategy {
+public struct YearMonthDayStrategy: DateCodableStrategy {
     private static let dateFormatter: DateFormatter = {
         $0.locale = Locale(identifier: "en_US_POSIX")
         $0.dateFormat = "y-MM-dd"

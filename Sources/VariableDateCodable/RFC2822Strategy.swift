@@ -7,7 +7,7 @@ import Foundation
 /// For example, decoding json data with a `String` representation  of `"Tue, 24 Dec 2019 16:39:57 -0000"` produces a valid `Date` representing 39 minutes and 57 seconds after the 16th hour of December 24th, 2019 with an offset of -00:00 from UTC.
 ///
 /// Original source: https://github.com/marksands/BetterCodable/blob/master/Sources/BetterCodable/RFC2822Strategy.swift
-public struct RFC2822Strategy: DateValueCodableStrategy {
+public struct RFC2822Strategy: DateCodableStrategy {
     private static let dateFormatter: DateFormatter = {
         $0.locale = Locale(identifier: "en_US_POSIX")
         $0.dateFormat = "EEE, d MMM y HH:mm:ss zzz"

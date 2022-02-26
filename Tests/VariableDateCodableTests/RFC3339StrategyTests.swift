@@ -4,7 +4,7 @@ import XCTest
 final class RFC3339StrategyTests: XCTestCase {
     func testDecodingAndEncodingRFC3339DateString_Valid() throws {
         struct Response: Codable {
-            @DateValue<RFC3339Strategy> var rfc3339Date: Date
+            @DateCodable<RFC3339Strategy> var rfc3339Date: Date
         }
         let jsonData = Data(#"{"rfc3339Date": "1996-12-19T16:39:57-08:00"}"#.utf8)
 
@@ -14,7 +14,7 @@ final class RFC3339StrategyTests: XCTestCase {
     
     func testDecodingAndEncodingRFC3339DateString_Invalid() throws {
         struct Response: Codable {
-            @OptionalDateValue<RFC3339Strategy> var rfc3339Date: Date?
+            @OptionalDateCodable<RFC3339Strategy> var rfc3339Date: Date?
         }
         let jsonData = Data(#"{"rfc3339Date": "1996-12-19"}"#.utf8)
 

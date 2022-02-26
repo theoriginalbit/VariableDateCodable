@@ -4,7 +4,7 @@ import XCTest
 final class ISO8601StrategyTests: XCTestCase {
     func testDecodingAndEncodingISO8601DateString_Valid() throws {
         struct Response: Codable {
-            @DateValue<ISO8601Strategy> var iso8601: Date
+            @DateCodable<ISO8601Strategy> var iso8601: Date
         }
         let jsonData = Data(#"{"iso8601": "1996-12-19T16:39:57-08:00"}"#.utf8)
 
@@ -14,7 +14,7 @@ final class ISO8601StrategyTests: XCTestCase {
     
     func testDecodingAndEncodingISO8601DateString_Invalid() throws {
         struct Response: Codable {
-            @DateValue<ISO8601Strategy> var iso8601: Date
+            @DateCodable<ISO8601Strategy> var iso8601: Date
         }
         let jsonData = Data(#"{"iso8601": "1996-12-19"}"#.utf8)
 

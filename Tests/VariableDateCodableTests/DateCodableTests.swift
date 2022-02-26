@@ -1,10 +1,10 @@
 @testable import VariableDateCodable
 import XCTest
 
-final class DateValueTests: XCTestCase {
+final class DateCodableTests: XCTestCase {
     func testDecodingAndEncodingExists() throws {
         struct Response: Codable {
-            @DateValue<YearMonthDayStrategy> var ymd: Date
+            @DateCodable<YearMonthDayStrategy> var ymd: Date
         }
         let jsonData = Data(#"{"ymd": "1996-12-19"}"#.utf8)
 
@@ -15,7 +15,7 @@ final class DateValueTests: XCTestCase {
 
     func testDecodingAndEncodingNull() throws {
         struct Response: Codable {
-            @DateValue<YearMonthDayStrategy> var ymd: Date
+            @DateCodable<YearMonthDayStrategy> var ymd: Date
         }
         let jsonData = Data(#"{"ymd": null}"#.utf8)
 
@@ -24,7 +24,7 @@ final class DateValueTests: XCTestCase {
 
     func testDecodingAndEncodingMissing() throws {
         struct Response: Codable {
-            @DateValue<YearMonthDayStrategy> var ymd: Date
+            @DateCodable<YearMonthDayStrategy> var ymd: Date
         }
         let jsonData = Data(#"{}"#.utf8)
 

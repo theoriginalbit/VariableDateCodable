@@ -7,7 +7,7 @@ import Foundation
 /// For example, decoding json data with a unix timestamp of `978307200.0` produces a valid `Date` representing January 1, 2001.
 ///
 /// Original source: https://github.com/marksands/BetterCodable/blob/master/Sources/BetterCodable/TimestampStrategy.swift
-public struct TimestampStrategy: DateValueCodableStrategy {
+public struct TimestampStrategy: DateCodableStrategy {
     public static func decode(_ value: TimeInterval) throws -> Date {
         return Date(timeIntervalSince1970: value)
     }
